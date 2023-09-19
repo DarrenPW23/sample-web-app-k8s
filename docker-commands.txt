@@ -1,0 +1,22 @@
+docker run -d \
+  -p 8080:80 \
+  --name my-website-container \
+  ui
+
+docker network create backend-network
+
+docker run -d \
+  --name my-postgres-container \
+  --network backend-network \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=admin123 \
+  -e DB_HOST=basic3tier \
+  -p 5432:5432 \
+  postgres:latest
+
+docker run -d \
+  --name my-node-api-container \
+  --network backend-network \
+  -e DB_HOST=my-postgres-container \
+  -p 7000:3000 \
+  my-node-api

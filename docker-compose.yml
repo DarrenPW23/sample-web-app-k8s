@@ -1,0 +1,37 @@
+version: '3'
+services:
+  my-website-container:
+    build: ./ui
+    image: my-website-image:latest
+    container_name: my-website-container
+    ports:
+      - "8080:80"
+    networks:
+      - backend-network
+
+  my-postgres-container:
+    image: postgres:latest
+    container_name: my-postgres-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: basic3tier
+    ports:
+      - "5432:5432"
+    networks:
+      - backend-network
+
+  my-node-api-container:
+    build: ./apinode
+    image: my-node-api-image:latest
+    command: npm start
+    container_name: my-node-api-container
+    environment:
+      DB_HOST: my-postgres-container
+    ports:
+      - "7000:3000"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
