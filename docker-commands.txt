@@ -36,3 +36,13 @@ docker run -d \
   -p 80:80 \
   --name my-website-container \
   my-website-image:latest
+
+
+
+EXAMPLES FOR ECR:
+- aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 557701857917.dkr.ecr.ap-southeast-2.amazonaws.com/my-node-api-image
+- docker tag my-node-api:latest 557701857917.dkr.ecr.ap-southeast-2.amazonaws.com/my-node-api-image:latest
+- docker push 557701857917.dkr.ecr.ap-southeast-2.amazonaws.com/my-node-api-image:latest
+
+deploy commands example:
+kubectl apply -f deploy-api.yml

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui # used in the service file
+  template:
+    metadata:
+      labels:
+        app: ui
+    spec:
+      containers:
+      - name: my-website-container
+        image: 557701857917.dkr.ecr.ap-southeast-2.amazonaws.com/my-website-image
+        ports:
+        - containerPort: 80

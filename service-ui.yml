@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-service
+spec:
+  selector:
+    app: ui  # same label as the UI pod (deploy-ui.yml)
+  ports:
+    - protocol: TCP
+      port: 80  # Port the UI container is listening on
+      targetPort: 80  # Port the UI container is using internally
