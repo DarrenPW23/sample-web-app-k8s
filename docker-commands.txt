@@ -1,22 +1,38 @@
-docker run -d \
-  -p 8080:80 \
-  --name my-website-container \
-  ui
-
 docker network create backend-network
+
+docker volume create db-data
 
 docker run -d \
   --name my-postgres-container \
   --network backend-network \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=admin123 \
-  -e DB_HOST=basic3tier \
+  -e POSTGRES_DB=basic3tier \
   -p 5432:5432 \
+  -v db-data:/var/lib/postgresql/data \
   postgres:latest
 
+docker run -d \
+  --name my-pgadmin-container \
+  --network backend-network \
+  -e PGADMIN_DEFAULT_EMAIL=darrenwildschut@capitecbank.co.za \
+  -e PGADMIN_DEFAULT_PASSWORD=thisisapassword \
+  -p 5050:80 \
+  dpage/pgadmin4:latest
+
+docker build -t my-node-api apinode
 docker run -d \
   --name my-node-api-container \
   --network backend-network \
   -e DB_HOST=my-postgres-container \
-  -p 7000:3000 \
+  -e DB_USER=postgres \
+  -e DB_PASSWORD=admin123 \
+  -e DB_NAME=basic3tier \
+  -p 81:3000 \
   my-node-api
+
+docker build -t my-website-image ui
+docker run -d \
+  -p 80:80 \
+  --name my-website-container \
+  my-website-image:latest
