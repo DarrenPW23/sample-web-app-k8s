@@ -4,15 +4,20 @@ metadata:
   name: ui-api-service
 spec:
   selector:
-    app: ui  # Match labels to select frontend pods (from deploy-ui.yml)
+    app: website
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80  # Port the frontend container is listening on (from deploy-ui.yml)
-  ---
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
   selector:
-    app: api  # Match labels to select backend pods (from deploy-api.yml)
+    app: node-api
   ports:
     - protocol: TCP
-      port: 81
-      targetPort: 3000  # Port the backend container is using internally (from deploy-api.yml)
+      port: 80
+      targetPort: 3000

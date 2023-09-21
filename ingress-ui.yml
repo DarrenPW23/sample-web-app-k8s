@@ -1,16 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ui-ingress
+  name: website-ingress
 spec:
+  ingressClassName: 'nginx'
   rules:
-    - host: ec2-54-252-214-36.ap-southeast-2.compute.amazonaws.com  # Replace with your domain or hostname
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ui-service  # Name of the UI service
-                port:
-                  number: 80  # Port the UI service is listening on
+  - http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: website-service
+              port:
+                number: 80

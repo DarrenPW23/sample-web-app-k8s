@@ -1,44 +1,26 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: postgres-statefulset
+  name: postgres-deployment
 spec:
-  serviceName: postgres-service
   replicas: 1
   selector:
     matchLabels:
-      app: database
+      app: postgres
   template:
     metadata:
       labels:
-        app: database
+        app: postgres
     spec:
       containers:
-      - name: postgres-container
-        image: postgres:latest
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_USER
-          value: postgres
-        - name: POSTGRES_PASSWORD
-          value: admin123
-        - name: POSTGRES_DB
-          value: basic3tier
-      - name: pgadmin-container
-        image: dpage/pgadmin4:latest
-        ports:
-        - containerPort: 80
-        env:
-        - name: PGADMIN_DEFAULT_EMAIL
-          value: darrenwildschut@capitecbank.co.za
-        - name: PGADMIN_DEFAULT_PASSWORD
-          value: thisisapassword
-  volumeClaimTemplates:
-  - metadata:
-      name: db-data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 8Gi  # Adjust the storage size as needed
+        - name: postgres-container
+          image: postgres:latest
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: admin123
+            - name: POSTGRES_DB
+              value: basic3tier
+          ports:
+            - containerPort: 5432

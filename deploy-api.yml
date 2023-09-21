@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-deployment
+  name: node-api-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: api
+      app: node-api
   template:
     metadata:
       labels:
-        app: api
+        app: node-api
     spec:
       containers:
-      - name: my-node-api-container
-        image: 557701857917.dkr.ecr.ap-southeast-2.amazonaws.com/my-node-api-image
-        ports:
-        - containerPort: 3000  # Adjust the port as needed
-        env:
-        - name: DB_HOST
-          value: db-service  # Adjust based on your database container's name
-        - name: DB_USER
-          value: postgres
-        - name: DB_PASSWORD
-          value: admin123
-        - name: DB_NAME
-          value: basic3tier
+        - name: node-api-container
+          image: 557701857917.dkr.ecr.ap-southeast-2.amazonaws.com/my-node-api-image
+          env:
+            - name: DB_HOST
+              value: my-postgres-container
+            - name: DB_USER
+              value: postgres
+            - name: DB_PASSWORD
+              value: admin123
+            - name: DB_NAME
+              value: basic3tier
+          ports:
+            - containerPort: 3000
