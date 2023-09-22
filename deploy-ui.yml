@@ -1,19 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: website-deployment
+  name: ui
+  namespace: beltexam2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: website
+      app: ui
   template:
     metadata:
       labels:
-        app: website
+        app: ui
     spec:
       containers:
-        - name: my-website-container
+        - name: my-ui-container
           image: 557701857917.dkr.ecr.ap-southeast-2.amazonaws.com/my-website-image
           ports:
             - containerPort: 80
+              name: ui

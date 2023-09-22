@@ -1,11 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: node-api-service
+  name: api-service
+  namespace: beltexam2
 spec:
+  type: ClusterIP
   selector:
-    app: node-api
+    app: api
   ports:
-    - protocol: TCP
+    - name: api-service
       port: 81
       targetPort: 3000

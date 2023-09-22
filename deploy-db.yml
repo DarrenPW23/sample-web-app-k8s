@@ -1,19 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres-deployment
+  name: db
+  namespace: beltexam2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: db
   template:
     metadata:
       labels:
-        app: postgres
+        app: db
     spec:
       containers:
-        - name: postgres-container
+        - name: my-db-container
           image: postgres:latest
           env:
             - name: POSTGRES_USER
@@ -24,3 +25,11 @@ spec:
               value: basic3tier
           ports:
             - containerPort: 5432
+              name: postgres
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: postgresdb
+          volumes:
+          - name: postgresdb
+            persistentVolumeClaim:
+              claimName: db-pv-claim

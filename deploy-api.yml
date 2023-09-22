@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-api-deployment
+  name: api
+  namespace: beltexam2
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: node-api
+      app: api
   template:
     metadata:
       labels:
-        app: node-api
+        app: api
     spec:
       containers:
-        - name: node-api-container
+        - name: my-api-container
           image: 557701857917.dkr.ecr.ap-southeast-2.amazonaws.com/my-node-api-image
           env:
             - name: DB_HOST
-              value: my-postgres-container
+              value: my-db-container
             - name: DB_USER
               value: postgres
             - name: DB_PASSWORD
