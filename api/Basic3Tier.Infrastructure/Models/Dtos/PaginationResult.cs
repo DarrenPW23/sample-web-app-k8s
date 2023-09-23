@@ -6,7 +6,7 @@ public class PaginationResult<TRequest> where TRequest : CommonDtoRequest
 
     public int CurrentPage { get; set; }
 
-    public int TotalPages => (int)Math.Ceiling((decimal)TotalRecords / PageSize);
+    public int TotalPages => PageSize == 0 ? 1 : (int)Math.Ceiling((decimal)TotalRecords / PageSize);
 
     public int PageSize { get; set; }
     

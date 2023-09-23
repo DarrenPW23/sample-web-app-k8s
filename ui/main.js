@@ -1,6 +1,6 @@
 // Wait for the document to be ready
 $(document).ready(function () {
-    const baseUrl = 'http://localhost:81/';
+    let baseUrl = '';
     let users = [];
     let activeUser = {};
     // Function to get users from 'api/user' endpoint and display them in the table
@@ -153,6 +153,15 @@ $(document).ready(function () {
         deleteUser(userId);
     });
 
-    // Initial load of users
-    getUsers();
+    
+    
+    async function getText(file) {
+        let myObject = await fetch(file);
+        let myText = await myObject.text();
+        const config = JSON.parse(myText);
+        baseUrl = config.API_URL;
+        // Initial load of users
+        getUsers();
+    }
+    getText('./configs/config.json');
 });
