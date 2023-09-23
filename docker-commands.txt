@@ -46,3 +46,19 @@ EXAMPLES FOR ECR:
 
 deploy commands example:
 kubectl apply -f deploy-api.yml
+
+
+Cluster commands examples:
+aws eks create-cluster \
+  --name my-sa-cluster \
+  --role-arn arn:aws:iam::557701857917:role/KubeEKS \
+  --resources-vpc-config subnetIds=["subnet-092184f6b866182b5","subnet-066ea7c321d0ee3fc","subnet-0e0dcfc5d9935bccd"],securityGroupIds=sg-00ccc2b0e37a618ff
+
+aws eks --region af-south-1 update-kubeconfig --name my-sa-cluster
+
+aws eks describe-cluster --name mysacluster --query "cluster.endpoint" --output text
+kubectl config set-cluster mysacluster --server=A4301FBD2F289134473361440D42812A.yl4.af-south-1.eks.amazonaws.com
+
+aws eks --region af-south-1 update-kubeconfig --name mysacluster
+kubectl config use-context arn:aws:eks:af-south-1:557701857917:cluster/mysacluster
+kubectl config set-credentials darrendev --token=lCqcJ5qYyUNoKLclDQcmLUMtMwbfsOJhCkssR5N4

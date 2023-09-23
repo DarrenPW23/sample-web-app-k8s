@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
-  namespace: beltexam2
+  namespace: beltexam2 # Ensure this namespace exists
 spec:
   replicas: 1
   selector:
@@ -14,8 +14,8 @@ spec:
         app: db
     spec:
       containers:
-        - name: my-db-container
-          image: postgres:latest
+        - image: postgres:latest
+          name: my-db-container
           env:
             - name: POSTGRES_USER
               value: postgres
@@ -27,9 +27,9 @@ spec:
             - containerPort: 5432
               name: postgres
           volumeMounts:
-          - mountPath: /var/lib/postgresql/data
-            name: postgresdb
-          volumes:
-          - name: postgresdb
-            persistentVolumeClaim:
-              claimName: db-pv-claim
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdb
+      volumes:
+        - name: postgresdb
+          persistentVolumeClaim:
+            claimName: db-pv-claim # Make sure this PVC exists and is correctly configured
